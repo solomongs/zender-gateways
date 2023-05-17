@@ -1,7 +1,7 @@
 <?php
 /**
  * SMSLive247 SMS Gateway
- * @author Bard
+ * @author Solomon
  */
 
 define("SMSLIVE247_GATEWAY", [
