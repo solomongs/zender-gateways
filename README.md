@@ -12,7 +12,9 @@ The following SMS gateways are currently supported:
 * SMSLive247
 * Africas Talking
 * BulkSMS Nigeria
+## Used libraries
 
+-   https://github.com/titansys/zender-gateways
 ## License
 
 The SMS Gateway Controllers project is open source software released under the MIT License.
