@@ -1,7 +1,7 @@
 <?php
 /**
  * SMSLive247 SMS Gateway
- * @author Solomon
+ * @author Solomon Gbeta
  */
 
 define("SMSLIVE247_GATEWAY", [
@@ -19,14 +19,14 @@ function gatewaySend($phone, $message, &$system)
 	 */
 
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, "https://api.smslive247.com/api/v1/sendsms");
+	curl_setopt($ch, CURLOPT_URL, "https://api.smslive247.com/api/v4/sms");
 	curl_setopt($ch, CURLOPT_POST, true);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, [
 		"username" => SMSLIVE247_GATEWAY["username"],
 		"password" => SMSLIVE247_GATEWAY["password"],
-		"sender" => SMSLIVE247_GATEWAY["sender"],
 		"to" => $phone,
-		"message" => $message
+		"message" => $message,
+		"from" => SMSLIVE247_GATEWAY["sender"]
 	]);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
@@ -51,4 +51,42 @@ function gatewayCallback($request, &$system)
 	 * @return array:MessageID
 	 * @return array:Empty
 	 */
+}
+
+function gatewayGetAccount()
+{
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, "https://api.smslive247.com/api/v4/account");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$response = curl_exec($ch);
+	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	curl_close($ch);
+
+	if ($httpCode == 200) {
+		// Account details received successfully
+		return json_decode($response, true);
+	} else {
+		// Error getting account details
+		return false;
+	}
+}
+
+function gatewayGetSubaccounts()
+{
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, "https://api.smslive247.com/api/v4/subaccounts");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$response = curl_exec($ch);
+	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	curl_close($ch);
+
+	if ($httpCode == 200) {
+		// Subaccount details received successfully
+		return json_decode($response, true);
+	} else {
+		// Error getting subaccount details
+		return false;
+	}
 }
